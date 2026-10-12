@@ -4,11 +4,24 @@
 
 This project demonstrates the end-to-end implementation of a cloud data pipeline. It showcases the ability to ingest raw data, catalog it, transform it through distinct storage layers, and serve it to a business intelligence tool using AWS S3, AWS Glue, Amazon Athena, and Power BI.
 
-Architecture Diagram in plaintext (jpeg to be attached)
+Architecture Diagram (plaintext) 
 
 
 [ Raw Data (CSV) ] >>>> [ AWS S3: raw/ ] >>>> [ AWS Glue Crawler ] >>>> [ Glue Data Catalog / Athena ] >>>> [ Glue ETL / Athena CTAS ] >>>> [ AWS S3: processed/ ] >>>>
 [ AWS S3: curated/ ] >>>> [ Amazon Athena ] >>>> [ Power BI Dashboard ]
+
+Architecture Diagram (interactive)
+
+```mermaid
+flowchart LR
+    A[Raw CSV Data] -->|Upload| B[(Amazon S3\n/raw/)]
+    B -->|Crawl Schema| C[AWS Glue Crawler]
+    C -->|Register Tables| D[AWS Glue\nData Catalog]
+    D -->|Query Raw Data| E[Amazon Athena]
+    E -->|CTAS Transformation| F[(Amazon S3\n/processed/ & /curated/)]
+    F -->|Catalog Schema| D
+    E -->|ODBC Connector| G[Power BI\nDashboard]
+```
 
 ## Project Structure & Layers
 
