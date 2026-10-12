@@ -1,0 +1,40 @@
+### Data Model & Core DAX Measures
+### Curated Table Schema (`curated_trade_kpis`)
+
+Field Name	Type	Description
+`trade_year`	`INT`	Transaction Year
+`trade_month`	`INT`	Transaction Month
+`country`	`STRING`	Destination/Origin Country
+`usastate`	`STRING`	US State Identifier
+`commodity2`	`STRING`	Commodity Category
+`trdtype`	`STRING`	Import / Export Classification
+`aggregate_trade_value`	`DOUBLE`	Total Financial Trade Value
+`aggregate_freight_charges`	`DOUBLE`	Total Freight & Shipping Costs
+`aggregate_shipping_weight`	`DOUBLE`	Total Weight (Kilograms/Pounds)
+`total_shipments`	`BIGINT`	Total Count of Distinct Shipments
+
+
+
+Key DAX Measures (`_Measures` Table)
+```dax
+-- Total Financial Value
+Total Trade Value = 
+SUM(curated_trade_kpis[aggregate_trade_value])
+
+-- Total Freight Cost
+Total Freight Cost = 
+SUM(curated_trade_kpis[aggregate_freight_charges])
+
+-- Total Volume Shipped
+Total Shipping Weight = 
+SUM(curated_trade_kpis[aggregate_shipping_weight])
+
+-- Total Shipment Count
+Total Shipments = 
+SUM(curated_trade_kpis[total_shipments])
+
+-- Average Freight Cost Per Shipment
+Avg Freight Cost per Shipment = 
+DIVIDE([Total Freight Cost], [Total Shipments], 0)
+```
+
